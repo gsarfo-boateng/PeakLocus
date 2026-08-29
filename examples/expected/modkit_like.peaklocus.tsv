@@ -1,0 +1,7 @@
+chrom	chromStart	chromEnd	name	strand	valid_coverage	percent_modified	Gene_ID	Gene_Name	Transcript_IDs	Gene_Type	Transcript_Type	Gene_Strand	Location
+chr1	104	110	a	+	20	80.0	G1	Gene1	T1	protein_coding	protein_coding	+	5'UTR
+chr1	129	140	a	+	25	76.0	G1	Gene1	T1	protein_coding	protein_coding	+	CDS
+chr1	184	190	a	+	18	66.7	G1	Gene1	T1	protein_coding	protein_coding	+	3'UTR
+chr1	249	260	a	+	22	72.7	G1	Gene1	T1	protein_coding	protein_coding	+	intron
+chr1	879	890	a	-	19	84.2	G2	Gene2	T2	protein_coding	protein_coding	-	5'UTR
+chr1	1049	1060	a	+	15	60.0	G3	Lnc1	T3	lncRNA	lncRNA	+	exon

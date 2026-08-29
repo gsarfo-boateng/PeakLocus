@@ -1,0 +1,13 @@
+chr1	test	transcript	101	500	.	+	.	gene_id "G1"; gene_name "Gene1"; transcript_id "T1"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	exon	101	200	.	+	.	gene_id "G1"; gene_name "Gene1"; transcript_id "T1"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	UTR	101	120	.	+	.	gene_id "G1"; gene_name "Gene1"; transcript_id "T1"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	CDS	121	180	.	+	0	gene_id "G1"; gene_name "Gene1"; transcript_id "T1"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	UTR	181	200	.	+	.	gene_id "G1"; gene_name "Gene1"; transcript_id "T1"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	exon	301	500	.	+	.	gene_id "G1"; gene_name "Gene1"; transcript_id "T1"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	transcript	701	900	.	-	.	gene_id "G2"; gene_name "Gene2"; transcript_id "T2"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	exon	701	900	.	-	.	gene_id "G2"; gene_name "Gene2"; transcript_id "T2"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	UTR	701	730	.	-	.	gene_id "G2"; gene_name "Gene2"; transcript_id "T2"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	CDS	731	870	.	-	0	gene_id "G2"; gene_name "Gene2"; transcript_id "T2"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	UTR	871	900	.	-	.	gene_id "G2"; gene_name "Gene2"; transcript_id "T2"; gene_type "protein_coding"; transcript_type "protein_coding";
+chr1	test	transcript	1001	1100	.	+	.	gene_id "G3"; gene_name "Lnc1"; transcript_id "T3"; gene_type "lncRNA"; transcript_type "lncRNA";
+chr1	test	exon	1001	1100	.	+	.	gene_id "G3"; gene_name "Lnc1"; transcript_id "T3"; gene_type "lncRNA"; transcript_type "lncRNA";
