@@ -4,6 +4,9 @@
 
 Version: **1.0.0**
 
+<img width="1122" height="1402" alt="PeakLocus" src="https://github.com/user-attachments/assets/eb552016-b9ef-4368-9add-5ee165172211" />
+
+
 ## Purpose
 
 PeakLocus was developed for annotating RNA-associated genomic coordinates rather than general DNA regulatory elements. Its annotation vocabulary is intentionally restricted to transcript-relevant regions:
