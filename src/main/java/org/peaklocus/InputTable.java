@@ -26,7 +26,6 @@ final class InputTable {
     static final class Schema {
         final Delimiter delimiter;
         final boolean hasHeader;
-        final String[] header;
         final int chromosomeIndex;
         final int startIndex;
         final int endIndex;
@@ -34,12 +33,11 @@ final class InputTable {
         final CoordinateMode coordinates;
         final String strandDetectionReason;
 
-        Schema(Delimiter delimiter, boolean hasHeader, String[] header,
+        Schema(Delimiter delimiter, boolean hasHeader,
                int chromosomeIndex, int startIndex, int endIndex, int strandIndex,
                CoordinateMode coordinates, String strandDetectionReason) {
             this.delimiter = delimiter;
             this.hasHeader = hasHeader;
-            this.header = header;
             this.chromosomeIndex = chromosomeIndex;
             this.startIndex = startIndex;
             this.endIndex = endIndex;
@@ -95,7 +93,7 @@ final class InputTable {
         StrandDetection strand = resolveStrandColumn(cfg.strandColumn, header, dataRows, maxCols);
         CoordinateMode coord = resolveCoordinates(cfg.coordinates, header, start, end, path);
 
-        return new Schema(delimiter, hasHeader, header, chr, start, end, strand.index, coord, strand.reason);
+        return new Schema(delimiter, hasHeader, chr, start, end, strand.index, coord, strand.reason);
     }
 
     static String[] split(String line, Delimiter delimiter) {

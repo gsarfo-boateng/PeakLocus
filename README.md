@@ -1,6 +1,6 @@
 # PeakLocus
 
-[![Version](https://img.shields.io/badge/version-0.1.0.0-blue.svg)](#citation)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](#citation)
 [![Java](https://img.shields.io/badge/Java-8%2B-orange.svg)](#installation)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
