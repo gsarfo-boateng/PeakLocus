@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
-import java.util.zip.GZIPInputStream;
 
 /**
  * RNA-focused GTF annotation engine used by PeakLocus.
@@ -154,7 +153,7 @@ final class RnaAnnotationEngine {
         Map<String, Rec> transcriptMetadata = new HashMap<String, Rec>();
         Map<String, List<Rec>> exonsByTranscript = new HashMap<String, List<Rec>>();
 
-        try (BufferedReader br = open(gtf)) {
+        try (BufferedReader br = InputTable.open(gtf)) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.isEmpty() || line.charAt(0) == '#') continue;
@@ -173,8 +172,9 @@ final class RnaAnnotationEngine {
                     continue;
                 }
 
+                // "." marks an unstranded GTF feature; it is indexed on both strands.
                 String strand = f[6];
-                if (!"+".equals(strand) && !"-".equals(strand)) continue;
+                if (!"+".equals(strand) && !"-".equals(strand) && !".".equals(strand)) continue;
 
                 Map<String, String> attr = parseAttrs(f[8]);
                 String geneId = value(attr, "gene_id", "");
@@ -352,15 +352,24 @@ final class RnaAnnotationEngine {
     }
 
     private static void add(Map<String, Map<String, List<Rec>>> map, Rec rec) {
+        if (".".equals(rec.strand)) {
+            addUnder(map, rec, "+");
+            addUnder(map, rec, "-");
+        } else {
+            addUnder(map, rec, rec.strand);
+        }
+    }
+
+    private static void addUnder(Map<String, Map<String, List<Rec>>> map, Rec rec, String strand) {
         Map<String, List<Rec>> byStrand = map.get(rec.chr);
         if (byStrand == null) {
             byStrand = new HashMap<String, List<Rec>>();
             map.put(rec.chr, byStrand);
         }
-        List<Rec> list = byStrand.get(rec.strand);
+        List<Rec> list = byStrand.get(strand);
         if (list == null) {
             list = new ArrayList<Rec>();
-            byStrand.put(rec.strand, list);
+            byStrand.put(strand, list);
         }
         list.add(rec);
     }
@@ -375,14 +384,6 @@ final class RnaAnnotationEngine {
             out.put(chr.getKey(), byStrand);
         }
         return out;
-    }
-
-    private static BufferedReader open(Path path) throws IOException {
-        InputStream in = Files.newInputStream(path);
-        if (path.getFileName().toString().toLowerCase(Locale.ROOT).endsWith(".gz")) {
-            in = new GZIPInputStream(in);
-        }
-        return new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
     }
 
     private static Map<String,String> parseAttrs(String attributeString) {

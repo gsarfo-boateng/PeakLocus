@@ -76,7 +76,7 @@ public final class PeakLocus {
 
                 if (schema.hasHeader && !headerWritten) {
                     bw.write(InputTable.join(append(fields, ANNOTATION_HEADER), schema.delimiter));
-                    bw.newLine();
+                    bw.write("\n");
                     headerWritten = true;
                     continue;
                 }
@@ -85,7 +85,7 @@ public final class PeakLocus {
                     String[] generated = new String[fields.length];
                     for (int i = 0; i < fields.length; i++) generated[i] = "col" + (i + 1);
                     bw.write(InputTable.join(append(generated, ANNOTATION_HEADER), schema.delimiter));
-                    bw.newLine();
+                    bw.write("\n");
                     headerWritten = true;
                 }
 
@@ -101,15 +101,12 @@ public final class PeakLocus {
                     int rawStart = Integer.parseInt(InputTable.stripQuotes(fields[schema.startIndex]));
                     int rawEnd = Integer.parseInt(InputTable.stripQuotes(fields[schema.endIndex]));
 
-                    int queryStart, queryEnd;
-                    if (schema.coordinates == InputTable.CoordinateMode.BED) {
-                        queryStart = rawStart + 1;
-                        queryEnd = rawEnd;
-                    } else {
-                        queryStart = rawStart;
-                        queryEnd = rawEnd;
-                    }
-                    if (queryEnd < queryStart) {
+                    // A BED interval with start == end covers no bases, so it stays N/A.
+                    boolean emptyBed = schema.coordinates == InputTable.CoordinateMode.BED
+                            && rawEnd <= rawStart;
+                    int queryStart = schema.coordinates == InputTable.CoordinateMode.BED ? rawStart + 1 : rawStart;
+                    int queryEnd = rawEnd;
+                    if (!emptyBed && queryEnd < queryStart) {
                         int t = queryStart;
                         queryStart = queryEnd;
                         queryEnd = t;
@@ -121,27 +118,28 @@ public final class PeakLocus {
                                 InputTable.stripQuotes(fields[schema.strandIndex]));
                     }
 
-                    RnaAnnotationEngine.Result result = engine.annotate(chr, queryStart, queryEnd, strand);
-                    String[] annotation = new String[]{
-                            result.geneId, result.geneName, result.transcriptIds,
-                            result.geneType, result.transcriptType,
-                            result.geneStrand, result.location
-                    };
-
-                    bw.write(InputTable.join(append(fields, annotation), schema.delimiter));
-                    bw.newLine();
+                    RnaAnnotationEngine.Result result = emptyBed
+                            ? new RnaAnnotationEngine.Result()
+                            : engine.annotate(chr, queryStart, queryEnd, strand);
+                    bw.write(InputTable.join(append(fields, annotationFields(result)), schema.delimiter));
+                    bw.write("\n");
                     written++;
                 } catch (Exception rowError) {
+                    // Keep the row so the output has one line per input row, marked N/A.
                     invalid++;
+                    bw.write(InputTable.join(append(fields, annotationFields(new RnaAnnotationEngine.Result())),
+                            schema.delimiter));
+                    bw.write("\n");
                     if (!cli.quiet && invalid <= 5) {
-                        System.err.println("WARNING: skipped malformed row " + rows + ": " + rowError.getMessage());
+                        System.err.println("WARNING: row " + rows + " has no valid interval, written as N/A: "
+                                + rowError.getMessage());
                     }
                 }
             }
         }
 
         if (!cli.quiet) {
-            System.err.println("Done. Annotated rows: " + written + "; skipped rows: " + invalid);
+            System.err.println("Done. Annotated rows: " + written + "; rows written as N/A: " + invalid);
             System.err.println("Output: " + cli.output);
         }
     }
@@ -195,6 +193,14 @@ public final class PeakLocus {
     private static String require(String[] args, int index, String flag) {
         if (index >= args.length) throw new IllegalArgumentException("Missing value after " + flag);
         return args[index];
+    }
+
+    private static String[] annotationFields(RnaAnnotationEngine.Result r) {
+        return new String[]{
+                r.geneId, r.geneName, r.transcriptIds,
+                r.geneType, r.transcriptType,
+                r.geneStrand, r.location
+        };
     }
 
     private static String[] append(String[] left, String[] right) {
