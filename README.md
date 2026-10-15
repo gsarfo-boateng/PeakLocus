@@ -6,64 +6,19 @@
 
 **PeakLocus** is a zero-dependency Java command-line tool for **RNA-centric genomic peak and interval annotation**. It maps genomic intervals from RNA-associated assays to transcript annotations and reports gene identity, transcript identity, biotype, strand, and RNA-region context.
 ```text
-                          PeakLocus
-        Transcript-aware annotation of RNA-associated intervals
-
- ┌─────────────────────┐                  ┌─────────────────────┐
- │  RNA interval file  │                  │    GTF annotation   │
- │                     │                  │                     │
- │ BED / narrowPeak /  │                  │ genes / transcripts │
- │ broadPeak / tabular │                  │ exons / CDS / UTRs  │
- └──────────┬──────────┘                  └──────────┬──────────┘
-            │                                        │
-            └───────────────────┬────────────────────┘
-                                │
-                                ▼
-              ┌───────────────────────────────────┐
-              │        Input normalization        │
-              │                                   │
-              │  coordinates • strand • columns   │
-              └─────────────────┬─────────────────┘
-                                │
-                                ▼
-              ┌───────────────────────────────────┐
-              │   Transcript-aware GTF indexing   │
-              │                                   │
-              │ UTR interpretation • CDS bounds   │
-              │ transcript-derived introns        │
-              └─────────────────┬─────────────────┘
-                                │
-                                ▼
-              ┌───────────────────────────────────┐
-              │      Interval-feature overlap     │
-              │                                   │
-              │    candidate genes/transcripts    │
-              │      + base-pair overlap          │
-              └─────────────────┬─────────────────┘
-                                │
-                                ▼
-              ┌───────────────────────────────────┐
-              │    Deterministic annotation       │
-              │                                   │
-              │ specific RNA class → max overlap  │
-              │       → stable tie-breaking       │
-              └─────────────────┬─────────────────┘
-                                │
-                                ▼
-        ┌─────────────────────────────────────────────────┐
-        │              RNA-location assignment            │
-        │                                                 │
-        │   3'UTR   5'UTR   CDS   exon   intron   N/A     │
-        └──────────────────────┬──────────────────────────┘
-                               │
-                               ▼
-        ┌─────────────────────────────────────────────────┐
-        │                    Output                       │
-        │                                                 │
-        │ Gene_ID • Gene_Name • Transcript_IDs            │
-        │ Gene_Type • Transcript_Type • Gene_Strand       │
-        │ Location                                        │
-        └─────────────────────────────────────────────────┘
+RNA intervals + GTF
+        |
+        v
+Coordinate/strand normalization
+        |
+        v
+Transcript-aware annotation
+        |
+        v
+3'UTR | 5'UTR | CDS | exon | intron | N/A
+        |
+        v
+Gene + transcript + biotype + strand + location
 ```
 
 
