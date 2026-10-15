@@ -18,6 +18,8 @@ public final class PeakLocusSelfTest {
             testMinusStrandUtr(dir);
             testTranscriptAwareIntron(dir);
             testNoncodingExon(dir);
+            testUnstrandedGtfFeatureIsIndexed(dir);
+            testCliEmptyBedAndMalformedRows(dir);
             System.out.println("ALL TESTS PASSED");
         } finally {
             deleteTree(dir);
@@ -101,6 +103,34 @@ public final class PeakLocusSelfTest {
         RnaAnnotationEngine.Result r = e.annotate("chr1", 1050, 1060, "+");
         check("exon".equals(r.location), "noncoding exon should remain exon");
         check("lncRNA".equals(r.geneType), "expected lncRNA gene type");
+    }
+
+    private static void testUnstrandedGtfFeatureIsIndexed(Path d) throws Exception {
+        Path g = d.resolve("unstranded.gtf");
+        Files.write(g, Arrays.asList(
+                "chr1\ttest\texon\t100\t200\t.\t.\t.\tgene_id \"G9\"; gene_name \"G9\"; transcript_id \"T9\"; gene_type \"protein_coding\"; transcript_type \"protein_coding\";"
+        ), StandardCharsets.UTF_8);
+        RnaAnnotationEngine e = RnaAnnotationEngine.load(g);
+        check("G9".equals(e.annotate("chr1", 105, 110, "+").geneId), "unstranded GTF exon should annotate + peaks");
+        check("G9".equals(e.annotate("chr1", 105, 110, "-").geneId), "unstranded GTF exon should annotate - peaks");
+        check("G9".equals(e.annotate("chr1", 105, 110, null).geneId), "unstranded GTF exon should annotate unstranded peaks");
+    }
+
+    private static void testCliEmptyBedAndMalformedRows(Path d) throws Exception {
+        Path bed = d.resolve("edge.bed");
+        Path out = d.resolve("edge.out.tsv");
+        Files.write(bed, Arrays.asList(
+                "chr1\t104\t110\tgood\t0\t+",
+                "chr1\t99\t99\tempty\t0\t+",
+                "chr1\tabc\t10\tbad\t0\t+"
+        ), StandardCharsets.UTF_8);
+        PeakLocus.main(new String[]{"-i", bed.toString(), "-g", writeMiniGtf(d).toString(),
+                "-o", out.toString(), "--quiet"});
+        List<String> lines = Files.readAllLines(out, StandardCharsets.UTF_8);
+        check(lines.size() == 4, "expected a header plus one line per input row, got " + lines.size());
+        check(lines.get(1).endsWith("5'UTR"), "good BED row should be 5'UTR");
+        check(lines.get(2).endsWith("N/A"), "empty BED interval should be N/A");
+        check(lines.get(3).endsWith("N/A"), "malformed row should be kept as N/A");
     }
 
     private static Path writeMiniGtf(Path d) throws Exception {
