@@ -6,7 +6,7 @@
 
 **PeakLocus** is a zero-dependency Java command-line tool for **RNA-centric genomic peak and interval annotation**. It maps genomic intervals from RNA-associated assays to transcript annotations and reports gene identity, transcript identity, biotype, strand, and RNA-region context.
 
-<img width="1122" height="1402" alt="PeakLocus" src="https://github.com/user-attachments/assets/eb552016-b9ef-4368-9add-5ee165172211" />
+![PeakLocus workflow: inputs, five steps, transcript region classes, and example output](docs/figures/peaklocus_model.png)
 
 
 ## Purpose
