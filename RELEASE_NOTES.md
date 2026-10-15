@@ -7,7 +7,7 @@ The release keeps the original biological goal—mapping RNA-associated genomic 
 The annotation vocabulary is deliberately limited to RNA-relevant regions:
 
 ```text
-3'UTR > 5'UTR > CDS > exon > intron > N/A
+3'UTR / 5'UTR / CDS / exon / intron / N/A
 ```
 
 Promoters and other DNA-regulatory annotations are not part of PeakLocus.
