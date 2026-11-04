@@ -16,9 +16,7 @@ export JAVA_HOME="$GRAALVM_HOME"
 export PATH="$JAVA_HOME/bin:$PATH"
 
 echo
-echo "============================================================"
 echo " PeakLocus native build"
-echo "============================================================"
 echo
 
 echo "JAVA_HOME:"
@@ -41,17 +39,13 @@ echo "Maven:"
 mvn --version
 
 echo
-echo "============================================================"
 echo " Running complete PeakLocus build and regression tests"
-echo "============================================================"
 echo
 
 bash "$ROOT/build.sh"
 
 echo
-echo "============================================================"
 echo " Building GraalVM native executable"
-echo "============================================================"
 echo
 
 mvn clean package -Pnative
@@ -68,18 +62,14 @@ fi
 chmod +x "$NATIVE"
 
 echo
-echo "============================================================"
 echo " Native executable information"
-echo "============================================================"
 echo
 
 ls -lh "$NATIVE"
 file "$NATIVE"
 
 echo
-echo "============================================================"
 echo " Native executable smoke tests"
-echo "============================================================"
 echo
 
 "$NATIVE" --version
@@ -88,9 +78,7 @@ echo
 "$NATIVE" -h >/dev/null
 
 echo
-echo "============================================================"
 echo " PeakLocus native build PASSED"
-echo "============================================================"
 echo
 echo "Executable:"
 echo "  $NATIVE"
