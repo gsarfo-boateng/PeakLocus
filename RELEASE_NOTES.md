@@ -4,7 +4,7 @@ PeakLocus 1.0.0 is the first packaged release of the RNA-focused peak/interval a
 
 The release keeps the original biological goal—mapping RNA-associated genomic coordinates to transcript regions—while generalizing input handling. PeakLocus automatically detects strand columns when possible and safely falls back to unstranded annotation when no reliable strand information exists.
 
-The annotation vocabulary is deliberately limited to RNA-relevant regions:
+The annotation vocabulary is deliberately limited to RNArelevant regions:
 
 ```text
 3'UTR / 5'UTR / CDS / exon / intron / N/A
