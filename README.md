@@ -3,13 +3,13 @@
 I would also update the top of the README to look roughly like this:
 
 ```markdown
-                                # PeakLocus
+ # PeakLocus
                                 
-                                [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](#citation)
-                                [![Java](https://img.shields.io/badge/Java-8%2B-orange.svg)](#installation)
-                                [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](#citation)
+[![Java](https://img.shields.io/badge/Java-8%2B-orange.svg)](#installation)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
                                 
-                                ```text
+```text
                                  ____  _____    _    _  ___     _      ___   ____ _   _ ____
                                 |  _ \| ____|  / \  | |/ /    | |    / _ \ / ___| | | / ___|
                                 | |_) |  _|   / _ \ | ' /     | |   | | | | |   | | | \___ \
