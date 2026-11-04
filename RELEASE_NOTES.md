@@ -2,7 +2,7 @@
 
 PeakLocus 1.0.0 is the first packaged release of the RNA-focused peak/interval annotator derived from the original `peak_annotator_modkit_gencode.java` implementation.
 
-The release keeps the original biological goal—mapping RNA-associated genomic coordinates to transcript regions—while generalizing input handling. PeakLocus automatically detects strand columns when possible and safely falls back to unstranded annotation when no reliable strand information exists.
+The release keeps the original biological goal-mapping RNA-associated genomic coordinates to transcript regions-while generalizing input handling. PeakLocus automatically detects strand columns when possible and safely falls back to unstranded annotation when no reliable strand information exists.
 
 The annotation vocabulary is deliberately limited to RNArelevant regions:
 
