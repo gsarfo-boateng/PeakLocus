@@ -1,43 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.peaklocus</groupId>
   <artifactId>peaklocus</artifactId>
   <version>1.0.0</version>
+
   <name>PeakLocus</name>
   <description>RNA-centric genomic peak and interval annotation</description>
+
   <properties>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!--
+      Keep PeakLocus compatible with the Java 8 API surface,
+      even when building with JDK 21 or newer.
+    -->
     <maven.compiler.release>8</maven.compiler.release>
+
+    <!--
+      Native Build Tools version validated in APAURA.
+    -->
+    <native.maven.plugin.version>1.1.14</native.maven.plugin.version>
+
   </properties>
+
   <build>
+
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
+
         <configuration>
           <release>8</release>
+          <encoding>UTF-8</encoding>
+          <showWarnings>true</showWarnings>
         </configuration>
       </plugin>
+
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.4.2</version>
+
         <configuration>
+
           <archive>
+
             <manifest>
               <mainClass>org.peaklocus.PeakLocus</mainClass>
             </manifest>
+
             <manifestEntries>
               <Implementation-Title>PeakLocus</Implementation-Title>
               <Implementation-Version>1.0.0</Implementation-Version>
             </manifestEntries>
+
           </archive>
+
         </configuration>
       </plugin>
+
     </plugins>
+
   </build>
+
+
+  <profiles>
+
+    <!-- =====================================================
+         GraalVM Native Image build
+
+         Usage:
+             mvn clean package -Pnative
+
+         Produces:
+             target/peaklocus
+         ===================================================== -->
+
+    <profile>
+
+      <id>native</id>
+
+      <build>
+
+        <plugins>
+
+          <plugin>
+
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <version>${native.maven.plugin.version}</version>
+
+            <extensions>true</extensions>
+
+            <executions>
+
+              <execution>
+
+                <id>build-native</id>
+
+                <phase>package</phase>
+
+                <goals>
+                  <goal>compile-no-fork</goal>
+                </goals>
+
+              </execution>
+
+            </executions>
+
+            <configuration>
+
+              <!-- PeakLocus CLI entry point -->
+              <mainClass>org.peaklocus.PeakLocus</mainClass>
+
+              <!-- Native executable name -->
+              <imageName>peaklocus</imageName>
+
+              <!-- Require a true native executable -->
+              <fallback>false</fallback>
+
+              <!--
+                PeakLocus has no external GraalVM reachability
+                metadata requirements.
+              -->
+              <metadataRepository>
+                <enabled>false</enabled>
+              </metadataRepository>
+
+              <!--
+                Build a portable executable instead of optimizing
+                only for the exact CPU used during compilation.
+              -->
+              <buildArgs>
+                <buildArg>-march=compatibility</buildArg>
+              </buildArgs>
+
+            </configuration>
+
+          </plugin>
+
+        </plugins>
+
+      </build>
+
+    </profile>
+
+  </profiles>
+
 </project>

@@ -8,6 +8,26 @@ import java.util.*;
 /** Command-line entry point for PeakLocus. */
 public final class PeakLocus {
     private static final String VERSION = "1.0.0";
+    private static final String CITATION =
+            "Boateng-Sarfo G, Pritam S, Signor S. " +
+                    "PeakLocus: A transcript-aware framework for RNA-centric genomic annotation. " +
+                    "PeakLocus v" + VERSION + ". " +
+                    "https://github.com/gsarfo-boateng/PeakLocus";
+    private static void printCitation() {
+        System.out.println();
+        System.out.println("============================================================");
+        System.out.println("PeakLocus citation");
+        System.out.println("============================================================");
+        System.out.println("If you use PeakLocus in your work, please cite:");
+        System.out.println();
+        System.out.println("Boateng-Sarfo G, Pritam S, Signor S.");
+        System.out.println("PeakLocus: A transcript-aware framework for RNA-centric");
+        System.out.println("genomic annotation.");
+        System.out.println("Version: " + VERSION);
+        System.out.println("https://github.com/gsarfo-boateng/PeakLocus");
+        System.out.println("============================================================");
+    }
+
     private static final String[] ANNOTATION_HEADER = new String[]{
             "Gene_ID", "Gene_Name", "Transcript_IDs", "Gene_Type",
             "Transcript_Type", "Gene_Strand", "Location"
@@ -144,6 +164,7 @@ public final class PeakLocus {
             System.err.println("Done. Annotated rows: " + written + "; skipped rows: " + invalid);
             System.err.println("Output: " + cli.output);
         }
+        printCitation();
     }
 
     private static Cli parse(String[] args) {
@@ -221,7 +242,7 @@ public final class PeakLocus {
             "gene/transcript biotypes, strand, and RNA-region context:\n" +
             "3'UTR, 5'UTR, CDS, exon, intron, or N/A.\n\n" +
             "Usage:\n" +
-            "  java -jar peaklocus.jar -i INPUT -g ANNOTATION.gtf [-o OUTPUT] [options]\n\n" +
+            "  peaklocus -i INPUT -g ANNOTATION.gtf [-o OUTPUT] [options]\n\n" +
             "Required:\n" +
             "  -i, --input FILE                  RNA peak/interval table\n" +
             "  -g, --gtf FILE                    GTF annotation (plain or .gz)\n\n" +
