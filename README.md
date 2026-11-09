@@ -30,7 +30,7 @@
 
 It maps genomic intervals from RNA-associated assays to transcript annotations and reports gene identity, transcript identity, gene/transcript biotype, strand, and RNA-region context.
 
-Version: **1.0.0**
+Version: **1.0.0** https://www.biorxiv.org/content/10.64898/2026.10.17.759721v1
 
 ---
 
