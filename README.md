@@ -896,7 +896,7 @@ unless those concepts are supplied independently by another downstream tool.
 
 If you use PeakLocus in your work, please cite:
 
-**Boateng-Sarfo G, Pritam S, Signor S. PeakLocus: A transcript-aware framework for RNA-centric genomic annotation. PeakLocus v1.0.0.**
+**Boateng-Sarfo G, Pritam S, Signor S. PeakLocus: A transcript-aware framework for RNA-centric genomic annotation. PeakLocus v1.0.0. https://www.biorxiv.org/content/10.64898/2026.10.17.759721v1**
 
 Repository:
 
